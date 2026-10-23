@@ -4,8 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Bintang's Phone</title>
+  <!-- Load FontAwesome untuk Ikon iOS Asli -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; user-select: none; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, sans-serif; user-select: none; }
     body { background-color: #0d1117; display: flex; justify-content: center; align-items: center; min-height: 100vh; color: white; overflow: hidden; }
 
     /* PHONE FRAME & SCREEN */
@@ -13,7 +15,7 @@
     .screen { width: 100%; height: 100%; border-radius: 38px; overflow: hidden; position: relative; background-size: cover; background-position: center; transition: background-image 0.3s ease; }
     
     /* STATUS BAR & DYNAMIC ISLAND */
-    .status-bar { padding: 12px 20px 0 20px; height: 44px; display: flex; justify-content: space-between; font-size: 12px; font-weight: 600; z-index: 50; position: absolute; width: 100%; top: 0; left: 0; }
+    .status-bar { padding: 12px 22px 0 22px; height: 44px; display: flex; justify-content: space-between; font-size: 12px; font-weight: 600; z-index: 50; position: absolute; width: 100%; top: 0; left: 0; }
     .dynamic-island { position: absolute; top: 8px; left: 50%; transform: translateX(-50%); width: 110px; height: 28px; background: black; border-radius: 20px; z-index: 60; }
 
     /* HOME SCREEN */
@@ -24,11 +26,19 @@
 
     .app-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 20px; }
     .app-icon { display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; }
-    .icon-box { width: 58px; height: 58px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 26px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
-    .app-name { font-size: 11px; font-weight: 500; }
+    
+    /* IKON iOS DESAIN PERSIS APPLE */
+    .icon-box { width: 58px; height: 58px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 26px; color: white; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+    .icon-messages { background: linear-gradient(180deg, #63e6be, #34c759); }
+    .icon-music { background: linear-gradient(180deg, #ff5263, #fa2d48); }
+    .icon-notes { background: linear-gradient(180deg, #ffe066, #ffcc00); }
+    .icon-photos { background: #ffffff; color: #1c1c1e; }
+    
+    .app-name { font-size: 11px; font-weight: 500; letter-spacing: -0.2px; }
 
-    /* DOCK BAR */
-    .dock { background: rgba(255,255,255,0.2); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 26px; padding: 12px 16px; display: flex; justify-content: space-around; margin-bottom: 10px; }
+    /* DOCK BAR iOS */
+    .dock { background: rgba(255,255,255,0.25); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border-radius: 28px; padding: 12px 14px; display: flex; justify-content: space-around; margin-bottom: 8px; }
+    .dock-icon { width: 52px; height: 52px; border-radius: 13px; display: flex; align-items: center; justify-content: center; font-size: 24px; color: white; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
 
     /* PAGES / APPS CONTAINER */
     .app-page { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 40; display: none; flex-direction: column; padding-top: 44px; padding-bottom: 20px; animation: slideUp 0.25s cubic-bezier(0,1,0.5,1); }
@@ -51,7 +61,7 @@
     .album-art { width: 200px; height: 200px; border-radius: 50%; border: 6px solid #2c2c2e; box-shadow: 0 10px 30px rgba(0,0,0,0.8); object-fit: cover; animation: spin 10s linear infinite; animation-play-state: paused; }
     .album-art.playing { animation-play-state: running; }
     @keyframes spin { 100% { transform: rotate(360deg); } }
-    .play-btn { width: 60px; height: 60px; border-radius: 50%; background: #fa2d48; border: none; color: white; font-size: 24px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+    .play-btn { width: 60px; height: 60px; border-radius: 50%; background: #fa2d48; border: none; color: white; font-size: 22px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
 
     /* NOTES APP */
     .notes-body { flex: 1; padding: 20px; color: #e5e5ea; font-size: 14px; line-height: 1.6; overflow-y: auto; background: #1c1c1e; }
@@ -67,14 +77,13 @@
 <body>
 
 <div class="phone">
-  <!-- LAYAR DENGAN WALLPAPER DEFAULT -->
   <div class="screen" id="screen" style="background-image: url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=1000');">
     
     <div class="dynamic-island"></div>
     
     <div class="status-bar">
       <span>17:15</span>
-      <span>100% 🔋</span>
+      <span>100% <i class="fa-solid fa-battery-full"></i></span>
     </div>
 
     <!-- HOME SCREEN -->
@@ -86,29 +95,37 @@
 
       <div>
         <div class="app-grid">
+          <!-- IKON PESAN (iOS Messages) -->
           <div class="app-icon" onclick="openApp('chat-app')">
-            <div class="icon-box" style="background: #34c759;">💬</div>
+            <div class="icon-box icon-messages"><i class="fa-solid fa-comment"></i></div>
             <span class="app-name">Pesan</span>
           </div>
+
+          <!-- IKON MUSIK (Apple Music) -->
           <div class="app-icon" onclick="openApp('music-app')">
-            <div class="icon-box" style="background: #fa2d48;">🎵</div>
+            <div class="icon-box icon-music"><i class="fa-solid fa-music"></i></div>
             <span class="app-name">Musik</span>
           </div>
+
+          <!-- IKON NOTES (Apple Notes) -->
           <div class="app-icon" onclick="openApp('notes-app')">
-            <div class="icon-box" style="background: #ffcc00;">📝</div>
+            <div class="icon-box icon-notes"><i class="fa-solid fa-note-sticky"></i></div>
             <span class="app-name">Catatan</span>
           </div>
+
+          <!-- IKON GALERI (iOS Photos) -->
           <div class="app-icon" onclick="openApp('photos-app')">
-            <div class="icon-box" style="background: linear-gradient(135deg, #ff9500, #ff2d55, #5856d6);">🖼️</div>
+            <div class="icon-box icon-photos"><i class="fa-solid fa-images" style="color: #ff2d55;"></i></div>
             <span class="app-name">Galeri</span>
           </div>
         </div>
 
+        <!-- DOCK BAR iOS -->
         <div class="dock">
-          <div class="icon-box" style="background: #34c759; width: 48px; height: 48px; font-size: 20px;" onclick="openApp('chat-app')">💬</div>
-          <div class="icon-box" style="background: #fa2d48; width: 48px; height: 48px; font-size: 20px;" onclick="openApp('music-app')">🎵</div>
-          <div class="icon-box" style="background: #ffcc00; width: 48px; height: 48px; font-size: 20px;" onclick="openApp('notes-app')">📝</div>
-          <div class="icon-box" style="background: linear-gradient(135deg, #ff9500, #ff2d55, #5856d6); width: 48px; height: 48px; font-size: 20px;" onclick="openApp('photos-app')">🖼️</div>
+          <div class="dock-icon icon-messages" onclick="openApp('chat-app')"><i class="fa-solid fa-comment"></i></div>
+          <div class="dock-icon icon-music" onclick="openApp('music-app')"><i class="fa-solid fa-music"></i></div>
+          <div class="dock-icon icon-notes" onclick="openApp('notes-app')"><i class="fa-solid fa-note-sticky"></i></div>
+          <div class="dock-icon icon-photos" onclick="openApp('photos-app')"><i class="fa-solid fa-images" style="color: #ff2d55;"></i></div>
         </div>
       </div>
     </div>
@@ -116,7 +133,7 @@
     <!-- APP 1: CHAT -->
     <div id="chat-app" class="app-page">
       <div class="app-header">
-        <button class="back-btn" onclick="closeApp()">< Pesan</button>
+        <button class="back-btn" onclick="closeApp()"><i class="fa-solid fa-chevron-left"></i> Pesan</button>
         <span style="font-weight: 600; font-size: 14px;">Senja 🌇</span>
         <span style="width: 40px;"></span>
       </div>
@@ -131,7 +148,7 @@
     <!-- APP 2: MUSIC -->
     <div id="music-app" class="app-page">
       <div class="app-header">
-        <button class="back-btn" onclick="closeApp()">< Musik</button>
+        <button class="back-btn" onclick="closeApp()"><i class="fa-solid fa-chevron-left"></i> Musik</button>
         <span style="font-weight: 600; font-size: 14px;">Apple Music</span>
         <span style="width: 40px;"></span>
       </div>
@@ -141,8 +158,7 @@
           <h3 style="font-size: 18px; margin-bottom: 4px;">Sore di Lapangan Basket</h3>
           <p style="color: #a1a1aa; font-size: 13px;">Bintang & Senja (Lo-Fi Chill)</p>
         </div>
-        <button class="play-btn" onclick="toggleAudio()">▶</button>
-        <!-- SOUND EFFECT / MP3 LINK -->
+        <button class="play-btn" onclick="toggleAudio()"><i class="fa-solid fa-play" id="play-icon"></i></button>
         <audio id="bg-music" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
       </div>
     </div>
@@ -150,7 +166,7 @@
     <!-- APP 3: NOTES -->
     <div id="notes-app" class="app-page">
       <div class="app-header">
-        <button class="back-btn" onclick="closeApp()">< Catatan</button>
+        <button class="back-btn" onclick="closeApp()"><i class="fa-solid fa-chevron-left"></i> Catatan</button>
         <span style="font-weight: 600; font-size: 14px;">Catatan</span>
         <span style="width: 40px;"></span>
       </div>
@@ -164,7 +180,7 @@
     <!-- APP 4: PHOTOS -->
     <div id="photos-app" class="app-page">
       <div class="app-header">
-        <button class="back-btn" onclick="closeApp()">< Galeri</button>
+        <button class="back-btn" onclick="closeApp()"><i class="fa-solid fa-chevron-left"></i> Galeri</button>
         <span style="font-weight: 600; font-size: 14px;">Foto Kenangan</span>
         <span style="width: 40px;"></span>
       </div>
@@ -193,16 +209,16 @@
   function toggleAudio() {
     const audio = document.getElementById('bg-music');
     const vinyl = document.getElementById('vinyl');
-    const btn = document.querySelector('.play-btn');
+    const playIcon = document.getElementById('play-icon');
 
     if (audio.paused) {
       audio.play();
       vinyl.classList.add('playing');
-      btn.innerText = '⏸';
+      playIcon.className = 'fa-solid fa-pause';
     } else {
       audio.pause();
       vinyl.classList.remove('playing');
-      btn.innerText = '▶';
+      playIcon.className = 'fa-solid fa-play';
     }
   }
 </script>
