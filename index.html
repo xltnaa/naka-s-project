@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>iPhone AU</title>
+  <title>iPhone iOS 18 AU</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, sans-serif; user-select: none; -webkit-user-select: none; }
@@ -15,31 +15,49 @@
 
     .screen { position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; background: #000; }
 
-    /* STATUS BAR & DYNAMIC ISLAND */
-    .status-bar { padding: 14px 24px 0 24px; height: 44px; display: flex; justify-content: space-between; font-size: 14px; font-weight: 600; z-index: 300; position: absolute; width: 100%; top: 0; left: 0; color: #fff; pointer-events: none; }
-    .dynamic-island { position: absolute; top: 8px; left: 50%; transform: translateX(-50%); width: 120px; height: 32px; background: #000; border-radius: 20px; z-index: 310; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 11px; }
+    /* STATUS BAR & DYNAMIC ISLAND iOS 17 */
+    .status-bar { padding: 14px 24px 0 24px; height: 44px; display: flex; justify-content: space-between; font-size: 14px; font-weight: 600; z-index: 500; position: absolute; width: 100%; top: 0; left: 0; color: #fff; pointer-events: none; }
+    .dynamic-island { position: absolute; top: 8px; left: 50%; transform: translateX(-50%); width: 120px; height: 32px; background: #000; border-radius: 20px; z-index: 510; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 11px; box-shadow: 0 0 10px rgba(0,0,0,0.8); }
 
-    /* --- LOCKSCREEN (SWIPE UP TO UNLOCK) --- */
+    /* --- 1. LOCKSCREEN --- */
     #lock-screen {
-      position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 200;
-      background-image: url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=1000');
-      background-size: cover; background-position: center; display: flex; flex-direction: column; justify-content: space-between; padding: 70px 24px 50px 24px;
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 300;
+      background-image: url('https://pin.it/1QZETNNBs');
+      background-size: cover; background-position: center; display: flex; flex-direction: column; justify-content: space-between; padding: 70px 24px 40px 24px;
       transition: transform 0.4s cubic-bezier(0.1, 0.9, 0.2, 1), opacity 0.3s;
       touch-action: none;
     }
-    #lock-screen.unlocked { transform: translateY(-100%); opacity: 0; pointer-events: none; }
+    #lock-screen.swiped { transform: translateY(-100%); opacity: 0; pointer-events: none; }
     
     .lock-clock-container { text-align: center; color: #fff; text-shadow: 0 4px 20px rgba(0,0,0,0.4); }
-    .lock-date { font-size: 19px; font-weight: 500; text-transform: capitalize; }
+    .lock-date { font-size: 19px; font-weight: 600; text-transform: capitalize; }
     .lock-time { font-size: 86px; font-weight: 700; letter-spacing: -2px; line-height: 1; margin-top: 4px; }
 
     .swipe-hint { text-align: center; color: rgba(255,255,255,0.9); font-size: 14px; font-weight: 600; animation: bounce 1.5s infinite; background: rgba(0,0,0,0.4); backdrop-filter: blur(15px); padding: 12px 24px; border-radius: 24px; align-self: center; cursor: pointer; }
     @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
 
-    /* HOMESCREEN */
+    /* --- 2. PIN PASSCODE SCREEN --- */
+    #pin-screen {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 250;
+      background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 24px;
+      transition: transform 0.4s cubic-bezier(0.1, 0.9, 0.2, 1), opacity 0.3s;
+    }
+    #pin-screen.unlocked { transform: translateY(-100%); opacity: 0; pointer-events: none; }
+
+    .pin-title { color: white; font-size: 16px; font-weight: 500; }
+    .pin-dots { display: flex; gap: 16px; margin-bottom: 10px; }
+    .dot { width: 14px; height: 14px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.8); background: transparent; transition: 0.2s; }
+    .dot.filled { background: white; }
+
+    .keypad-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; width: 100%; max-width: 260px; }
+    .key-btn { width: 72px; height: 72px; border-radius: 50%; background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); border: none; color: white; font-size: 28px; font-weight: 400; display: flex; align-items: center; justify-content: center; cursor: pointer; margin: 0 auto; }
+    .key-btn:active { background: rgba(255,255,255,0.4); }
+
+    /* --- 3. HOMESCREEN iOS 17 --- */
     #home-screen {
       width: 100%; height: 100%; padding: 60px 20px 28px 20px; display: flex; flex-direction: column; justify-content: space-between;
-      background-image: url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=1000');
+      background-image: url('https://pin.it/18t1tTDp5');
       background-size: cover; background-position: center;
     }
     .widgets-container { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
@@ -58,18 +76,17 @@
 
     .dock { background: rgba(255, 255, 255, 0.35); backdrop-filter: blur(30px); border-radius: 32px; padding: 12px 16px; display: flex; justify-content: space-around; }
 
-    /* APPS FULL SCREEN & TOMBOL KEMBALI (BACK) */
-    .app-page { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #000; color: #fff; z-index: 150; display: none; flex-direction: column; padding-top: 50px; animation: slideUp 0.25s cubic-bezier(0,1,0.5,1); }
+    /* --- 4. APP CONTAINERS & NAV HEADER --- */
+    .app-page { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #000; color: #fff; z-index: 150; display: none; flex-direction: column; padding-top: 44px; animation: slideUp 0.25s cubic-bezier(0,1,0.5,1); }
     .app-page.active { display: flex; }
     @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
 
-    /* HEADER IOS (ADA TOMBOL KEMBALI) */
     .ios-nav-header { height: 50px; padding: 0 16px; display: flex; align-items: center; justify-content: space-between; border-bottom: 0.5px solid #2c2c2e; background: rgba(0,0,0,0.85); backdrop-filter: blur(20px); }
     .back-btn { color: #0a84ff; background: none; border: none; font-size: 16px; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 4px; }
     .app-title-header { font-weight: 600; font-size: 17px; position: absolute; left: 50%; transform: translateX(-50%); }
 
-    /* MESSAGES & CHAT ROOM */
-    .messages-main-header { padding: 16px 20px 8px 20px; font-size: 32px; font-weight: 700; }
+    /* WHATSAPP & ROOM CHAT */
+    .wa-header { padding: 16px 20px 8px 20px; font-size: 30px; font-weight: 700; color: #25d366; }
     .chat-list { flex: 1; overflow-y: auto; }
     .chat-item { display: flex; align-items: center; gap: 14px; padding: 14px 20px; border-bottom: 0.5px solid #1c1c1e; cursor: pointer; }
     .chat-avatar { width: 52px; height: 52px; border-radius: 50%; object-fit: cover; }
@@ -77,17 +94,24 @@
     .chat-name { font-weight: 600; font-size: 16px; margin-bottom: 2px; }
     .chat-preview { color: #8e8e93; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 220px; }
 
-    #room-chat-page { background: #000; z-index: 180; }
-    .room-body { flex: 1; padding: 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; background: #000; }
+    #room-chat-page { background: #0b141a; z-index: 180; }
+    .room-body { flex: 1; padding: 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; background: #0b141a; }
     .msg-bubble { max-width: 75%; padding: 10px 14px; border-radius: 18px; font-size: 14px; line-height: 1.4; word-wrap: break-word; }
-    .msg-bubble.in { background: #26262a; color: white; align-self: flex-start; border-bottom-left-radius: 4px; }
-    .msg-bubble.out { background: #0a84ff; color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
+    .msg-bubble.in { background: #202c33; color: white; align-self: flex-start; border-bottom-left-radius: 4px; }
+    .msg-bubble.out { background: #005c4b; color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
     
     .chat-input-bar { padding: 10px 16px 24px 16px; background: #1c1c1e; display: flex; align-items: center; gap: 10px; }
-    .chat-input { flex: 1; background: #000; border: 1px solid #3a3a3c; border-radius: 20px; padding: 10px 16px; color: #fff; font-size: 14px; outline: none; }
-    .send-btn { background: #0a84ff; border: none; width: 34px; height: 34px; border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+    .chat-input { flex: 1; background: #2a3942; border: none; border-radius: 20px; padding: 10px 16px; color: #fff; font-size: 14px; outline: none; }
+    .send-btn { background: #00a884; border: none; width: 36px; height: 36px; border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; cursor: pointer; }
 
-    /* CALL SCREEN */
+    /* MUSIC / SPOTIFY APP */
+    .music-body { flex: 1; padding: 30px; display: flex; flex-direction: column; align-items: center; justify-content: space-around; background: linear-gradient(180deg, #3a1c40, #000); text-align: center; }
+    .album-art { width: 220px; height: 220px; border-radius: 50%; border: 6px solid #2c2c2e; box-shadow: 0 10px 30px rgba(0,0,0,0.8); object-fit: cover; animation: spin 10s linear infinite; animation-play-state: paused; }
+    .album-art.playing { animation-play-state: running; }
+    @keyframes spin { 100% { transform: rotate(360deg); } }
+    .play-btn { width: 68px; height: 68px; border-radius: 50%; background: #1ed760; border: none; color: black; font-size: 26px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+
+    /* CALL APP */
     #call-app { background: linear-gradient(180deg, #1f242d, #0d0f12); z-index: 190; justify-content: space-between; padding: 80px 24px 60px 24px; text-align: center; }
     .call-avatar { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; margin: 0 auto 20px auto; border: 3px solid rgba(255,255,255,0.2); }
     .call-actions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; width: 100%; max-width: 300px; margin: 0 auto; }
@@ -95,31 +119,68 @@
     .btn-end { background: #ff3b30; }
     .btn-mute { background: rgba(255,255,255,0.2); }
 
-    .home-indicator { position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); width: 134px; height: 5px; background: #fff; border-radius: 3px; z-index: 400; cursor: pointer; }
+    /* NOTES APP */
+    .notes-list { flex: 1; padding: 20px; overflow-y: auto; }
+    .note-card { background: #1c1c1e; border-radius: 14px; padding: 16px; margin-bottom: 14px; }
+    .note-title { font-weight: 700; font-size: 17px; margin-bottom: 6px; color: #ffe066; }
+    .note-desc { color: #8e8e93; font-size: 14px; line-height: 1.5; }
+
+    /* PHOTOS APP */
+    .photos-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; padding: 4px; overflow-y: auto; flex: 1; }
+    .photo-thumb { aspect-ratio: 1; object-fit: cover; width: 100%; border-radius: 4px; }
+
+    /* HOME INDICATOR */
+    .home-indicator { position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); width: 134px; height: 5px; background: #fff; border-radius: 3px; z-index: 600; cursor: pointer; }
   </style>
 </head>
 <body>
 
 <div class="screen">
-  <div class="dynamic-island">iOS 17 Dynamic Island</div>
+  <div class="dynamic-island">iPhone iOS 17</div>
 
   <div class="status-bar">
     <span>21:36</span>
     <span>5G 67%</span>
   </div>
 
-  <!-- LOCKSCREEN (SWIPE UP / KETIK UNTUK MASUK) -->
+  <!-- 1. LOCKSCREEN (SWIPE KE ATAS UNTUK KE PIN) -->
   <div id="lock-screen">
     <div class="lock-clock-container">
       <div class="lock-date">Jumat, 23 Oktober</div>
       <div class="lock-time">21:36</div>
     </div>
-    <div class="swipe-hint" onclick="unlockPhone()">
+    <div class="swipe-hint" onclick="swipeUpLockscreen()">
       <i class="fa-solid fa-chevron-up"></i> Geser ke atas / Ketuk untuk Buka
     </div>
   </div>
 
-  <!-- HOMESCREEN -->
+  <!-- 2. PIN PASSCODE SCREEN -->
+  <div id="pin-screen">
+    <div class="pin-title">Masukkan Passcode (PIN: 0000)</div>
+    <div class="pin-dots">
+      <div class="dot" id="d1"></div>
+      <div class="dot" id="d2"></div>
+      <div class="dot" id="d3"></div>
+      <div class="dot" id="d4"></div>
+    </div>
+
+    <div class="keypad-grid">
+      <button class="key-btn" onclick="pressKey('1')">1</button>
+      <button class="key-btn" onclick="pressKey('2')">2</button>
+      <button class="key-btn" onclick="pressKey('3')">3</button>
+      <button class="key-btn" onclick="pressKey('4')">4</button>
+      <button class="key-btn" onclick="pressKey('5')">5</button>
+      <button class="key-btn" onclick="pressKey('6')">6</button>
+      <button class="key-btn" onclick="pressKey('7')">7</button>
+      <button class="key-btn" onclick="pressKey('8')">8</button>
+      <button class="key-btn" onclick="pressKey('9')">9</button>
+      <button class="key-btn" style="visibility:hidden;"></button>
+      <button class="key-btn" onclick="pressKey('0')">0</button>
+      <button class="key-btn" onclick="pressKey('del')"><i class="fa-solid fa-delete-left"></i></button>
+    </div>
+  </div>
+
+  <!-- 3. HOMESCREEN -->
   <div id="home-screen">
     <div>
       <div class="widgets-container">
@@ -144,14 +205,14 @@
       </div>
 
       <div class="app-grid">
-        <div class="app-icon" onclick="openApp('messages-app')">
-          <div class="icon-box" style="background: #34c759; color: #fff;"><i class="fa-solid fa-comment"></i></div>
-          <span class="app-name">Messages</span>
+        <div class="app-icon" onclick="openApp('wa-app')">
+          <div class="icon-box" style="background: #25d366; color: #fff;"><i class="fa-brands fa-whatsapp"></i></div>
+          <span class="app-name">WhatsApp</span>
         </div>
 
-        <div class="app-icon" onclick="openApp('photos-app')">
-          <div class="icon-box" style="background: #fff; color: #ff2d55;"><i class="fa-solid fa-images"></i></div>
-          <span class="app-name">Photos</span>
+        <div class="app-icon" onclick="openApp('music-app')">
+          <div class="icon-box" style="background: #1ed760; color: #000;"><i class="fa-brands fa-spotify"></i></div>
+          <span class="app-name">Spotify</span>
         </div>
 
         <div class="app-icon" onclick="openApp('notes-app')">
@@ -159,29 +220,29 @@
           <span class="app-name">Notes</span>
         </div>
 
-        <div class="app-icon" onclick="triggerCall('Senja 🌇')">
-          <div class="icon-box" style="background: #34c759; color: #fff;"><i class="fa-solid fa-phone"></i></div>
-          <span class="app-name">Call</span>
+        <div class="app-icon" onclick="openApp('photos-app')">
+          <div class="icon-box" style="background: #fff; color: #ff2d55;"><i class="fa-solid fa-images"></i></div>
+          <span class="app-name">Galeri</span>
         </div>
       </div>
     </div>
 
     <div class="dock">
-      <div class="icon-box" style="background: #34c759; color: #fff;" onclick="triggerCall('Senja 🌇')"><i class="fa-solid fa-phone"></i></div>
-      <div class="icon-box" style="background: #34c759; color: #fff;" onclick="openApp('messages-app')"><i class="fa-solid fa-comment"></i></div>
+      <div class="icon-box" style="background: #34c759; color: #fff;" onclick="triggerCall('Senja จัดการ')"><i class="fa-solid fa-phone"></i></div>
+      <div class="icon-box" style="background: #25d366; color: #fff;" onclick="openApp('wa-app')"><i class="fa-brands fa-whatsapp"></i></div>
+      <div class="icon-box" style="background: #1ed760; color: #000;" onclick="openApp('music-app')"><i class="fa-brands fa-spotify"></i></div>
       <div class="icon-box" style="background: #ffe066; color: #000;" onclick="openApp('notes-app')"><i class="fa-solid fa-note-sticky"></i></div>
-      <div class="icon-box" style="background: #ff2d55; color: #fff;" onclick="openApp('photos-app')"><i class="fa-solid fa-images"></i></div>
     </div>
   </div>
 
-  <!-- 1. MESSAGES APP (DENGAN TOMBOL KEMBALI) -->
-  <div id="messages-app" class="app-page">
+  <!-- APP 1: WHATSAPP (LIST) -->
+  <div id="wa-app" class="app-page">
     <div class="ios-nav-header">
-      <button class="back-btn" onclick="closeApp('messages-app')"><i class="fa-solid fa-chevron-left"></i> Home</button>
-      <span class="app-title-header">Messages</span>
+      <button class="back-btn" onclick="closeApp('wa-app')"><i class="fa-solid fa-chevron-left"></i> Home</button>
+      <span class="app-title-header">WhatsApp</span>
       <span></span>
     </div>
-    <div class="messages-main-header">Messages</div>
+    <div class="wa-header">Pesan</div>
     
     <div class="chat-list">
       <div class="chat-item" onclick="openRoomChat('Senja 🌇', 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200')">
@@ -202,13 +263,13 @@
     </div>
   </div>
 
-  <!-- 2. ROOM CHAT INTERAKTIF (DENGAN TOMBOL KEMBALI) -->
+  <!-- INTERACTIVE ROOM CHAT -->
   <div id="room-chat-page" class="app-page">
     <div class="ios-nav-header">
-      <button class="back-btn" onclick="closeRoomChat()"><i class="fa-solid fa-chevron-left"></i> Messages</button>
+      <button class="back-btn" onclick="closeRoomChat()"><i class="fa-solid fa-chevron-left"></i> Chat</button>
       <div style="text-align: center;">
         <div id="room-target-name" style="font-weight: 600; font-size: 14px;">Target</div>
-        <div style="font-size: 9px; color: #34c759;">Online</div>
+        <div style="font-size: 9px; color: #25d366;">Online</div>
       </div>
       <i class="fa-solid fa-video" style="color: #0a84ff; font-size: 18px; cursor: pointer;" onclick="triggerCall(currentChatTarget)"></i>
     </div>
@@ -216,41 +277,66 @@
     <div class="room-body" id="room-msg-container"></div>
 
     <div class="chat-input-bar">
-      <input type="text" class="chat-input" id="chat-text-input" placeholder="iMessage..." onkeydown="if(event.key==='Enter') sendChatMessage()">
-      <button class="send-btn" onclick="sendChatMessage()"><i class="fa-solid fa-arrow-up"></i></button>
+      <input type="text" class="chat-input" id="chat-text-input" placeholder="Ketik pesan..." onkeydown="if(event.key==='Enter') sendChatMessage()">
+      <button class="send-btn" onclick="sendChatMessage()"><i class="fa-solid fa-paper-plane"></i></button>
     </div>
   </div>
 
-  <!-- 3. NOTES APP (DENGAN TOMBOL KEMBALI) -->
-  <div id="notes-app" class="app-page">
+  <!-- APP 2: MUSIC / SPOTIFY -->
+  <div id="music-app" class="app-page">
     <div class="ios-nav-header">
-      <button class="back-btn" onclick="closeApp('notes-app')"><i class="fa-solid fa-chevron-left"></i> Folders</button>
-      <span class="app-title-header">Notes</span>
+      <button class="back-btn" onclick="closeApp('music-app')"><i class="fa-solid fa-chevron-left"></i> Home</button>
+      <span class="app-title-header">Spotify</span>
       <span></span>
     </div>
-    <div style="padding: 20px;">
-      <div style="background: #1c1c1e; padding: 16px; border-radius: 14px; margin-bottom: 12px;">
-        <h3 style="color: #ffe066; margin-bottom: 6px;">Senja di Lapangan</h3>
-        <p style="color: #8e8e93; font-size: 14px;">Duduk nemenin Senja di lapangan basket pas senja selalu bikin tenang.</p>
+    <div class="music-body">
+      <img id="album-cover" class="album-art" src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=600">
+      <div>
+        <h3 style="font-size: 20px; margin-bottom: 6px;">Sore di Lapangan Basket</h3>
+        <p style="color: #1ed760; font-size: 14px;">Bintang & Senja (Lo-Fi)</p>
+      </div>
+      <button class="play-btn" onclick="toggleAudio()"><i class="fa-solid fa-play" id="play-icon"></i></button>
+      <audio id="bg-audio" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
+    </div>
+  </div>
+
+  <!-- APP 3: NOTES -->
+  <div id="notes-app" class="app-page">
+    <div class="ios-nav-header">
+      <button class="back-btn" onclick="closeApp('notes-app')"><i class="fa-solid fa-chevron-left"></i> Home</button>
+      <span class="app-title-header">Catatan</span>
+      <span></span>
+    </div>
+    <div class="notes-list">
+      <div class="note-card">
+        <div class="note-title">Senja di Lapangan</div>
+        <div class="note-desc">Duduk nemenin Senja di lapangan basket pas senja selalu bikin tenang. Jadwal ujian les serasa gak membebani lagi.</div>
+      </div>
+      <div class="note-card">
+        <div class="note-title">Tugas Bisnis HRM</div>
+        <div class="note-desc">Kumpul tugas rangkuman bab e-commerce besok jam 08.00 pagi.</div>
       </div>
     </div>
   </div>
 
-  <!-- 4. PHOTOS APP (DENGAN TOMBOL KEMBALI) -->
+  <!-- APP 4: PHOTOS / GALERI -->
   <div id="photos-app" class="app-page">
     <div class="ios-nav-header">
-      <button class="back-btn" onclick="closeApp('photos-app')"><i class="fa-solid fa-chevron-left"></i> Library</button>
-      <span class="app-title-header">Photos</span>
+      <button class="back-btn" onclick="closeApp('photos-app')"><i class="fa-solid fa-chevron-left"></i> Home</button>
+      <span class="app-title-header">Galeri Foto</span>
       <span></span>
     </div>
-    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; flex: 1; overflow-y: auto; padding-top: 2px;">
-      <img style="aspect-ratio: 1; object-fit: cover; width: 100%;" src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=400">
-      <img style="aspect-ratio: 1; object-fit: cover; width: 100%;" src="https://images.unsplash.com/photo-1546519638-68e109498ffc?q=80&w=400">
-      <img style="aspect-ratio: 1; object-fit: cover; width: 100%;" src="https://images.unsplash.com/photo-1497633762265-9d179a990aa6?q=80&w=400">
+    <div class="photos-grid">
+      <img class="photo-thumb" src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=400">
+      <img class="photo-thumb" src="https://images.unsplash.com/photo-1546519638-68e109498ffc?q=80&w=400">
+      <img class="photo-thumb" src="https://images.unsplash.com/photo-1497633762265-9d179a990aa6?q=80&w=400">
+      <img class="photo-thumb" src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=400">
+      <img class="photo-thumb" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=400">
+      <img class="photo-thumb" src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=400">
     </div>
   </div>
 
-  <!-- CALL SCREEN -->
+  <!-- APP 5: CALL SCREEN -->
   <div id="call-app" class="app-page">
     <div>
       <img id="call-avatar-img" class="call-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200">
@@ -265,26 +351,67 @@
     </div>
   </div>
 
+  <!-- HOME INDICATOR GARIS BAWAH -->
   <div class="home-indicator" onclick="goHome()"></div>
+
 </div>
 
 <script>
+  // LOCKSCREEN SWIPE GESTURE
   const lockScreen = document.getElementById('lock-screen');
-  let currentChatTarget = 'Senja 🌇';
-  let callInterval = null;
-  let secondsCalled = 0;
-
   let startY = 0;
-  lockScreen.addEventListener('touchstart', (e) => { startY = e.touches[0].clientY; });
+
+  lockScreen.addEventListener('touchstart', (e) => { startY = e.touches[0].clientY; }, {passive: true});
   lockScreen.addEventListener('touchend', (e) => {
     let endY = e.changedTouches[0].clientY;
-    if (startY - endY > 40) unlockPhone();
-  });
+    if (startY - endY > 40) swipeUpLockscreen();
+  }, {passive: true});
 
-  function unlockPhone() {
-    lockScreen.classList.add('unlocked');
+  function swipeUpLockscreen() {
+    lockScreen.classList.add('swiped');
   }
 
+  // PIN PASSCODE SYSTEM
+  let enteredPin = '';
+  const correctPin = '1234';
+
+  function pressKey(num) {
+    if (num === 'del') {
+      enteredPin = enteredPin.slice(0, -1);
+    } else if (enteredPin.length < 4) {
+      enteredPin += num;
+    }
+    updateDots();
+
+    if (enteredPin.length === 4) {
+      if (enteredPin === correctPin) {
+        setTimeout(unlockPhone, 150);
+      } else {
+        setTimeout(() => {
+          enteredPin = '';
+          updateDots();
+          alert('Passcode Salah! Masukkan PIN: 1234');
+        }, 200);
+      }
+    }
+  }
+
+  function updateDots() {
+    for (let i = 1; i <= 4; i++) {
+      const dot = document.getElementById(`d${i}`);
+      if (i <= enteredPin.length) {
+        dot.classList.add('filled');
+      } else {
+        dot.classList.remove('filled');
+      }
+    }
+  }
+
+  function unlockPhone() {
+    document.getElementById('pin-screen').classList.add('unlocked');
+  }
+
+  // NAVIGATION & APP CONTROLS
   function openApp(id) {
     document.getElementById(id).classList.add('active');
   }
@@ -297,6 +424,9 @@
     document.querySelectorAll('.app-page.active').forEach(p => p.classList.remove('active'));
     endCall();
   }
+
+  // WHATSAPP CHAT
+  let currentChatTarget = 'Senja 🌇';
 
   function openRoomChat(name, avatar) {
     currentChatTarget = name;
@@ -329,11 +459,32 @@
     setTimeout(() => {
       const replyMsg = document.createElement('div');
       replyMsg.className = 'msg-bubble in';
-      replyMsg.innerText = 'Wkwk oke sip, buruan ke sini ya!';
+      replyMsg.innerText = 'Wkwk oke sip, ditunggu ya!';
       container.appendChild(replyMsg);
       container.scrollTop = container.scrollHeight;
     }, 1200);
   }
+
+  // AUDIO PLAYER
+  function toggleAudio() {
+    const audio = document.getElementById('bg-audio');
+    const cover = document.getElementById('album-cover');
+    const icon = document.getElementById('play-icon');
+
+    if (audio.paused) {
+      audio.play();
+      cover.classList.add('playing');
+      icon.className = 'fa-solid fa-pause';
+    } else {
+      audio.pause();
+      cover.classList.remove('playing');
+      icon.className = 'fa-solid fa-play';
+    }
+  }
+
+  // CALL APP
+  let callInterval = null;
+  let secondsCalled = 0;
 
   function triggerCall(name) {
     document.getElementById('call-target-name').innerText = name;
@@ -349,7 +500,7 @@
         let s = (secondsCalled % 60).toString().padStart(2, '0');
         document.getElementById('call-timer').innerText = `${m}:${s}`;
       }, 1000);
-    }, 2000);
+    }, 1500);
   }
 
   function endCall() {
