@@ -235,4 +235,69 @@
   <div id="photos-app" class="app-page">
     <div class="photos-grid">
       <img class="photo-thumb" src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=400">
-      <img class="photo-thumb" src="
+      <img class="photo-thumb" src="https://images.unsplash.com/photo-1546519638-68e109498ffc?q=80&w=400">
+      <img class="photo-thumb" src="https://images.unsplash.com/photo-1497633762265-9d179a990aa6?q=80&w=400">
+      <img class="photo-thumb" src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=400">
+    </div>
+  </div>
+
+  <!-- HOME INDICATOR GARIS BAWAH -->
+  <div class="home-indicator" id="home-indicator" onclick="goHome()"></div>
+
+</div>
+
+<script>
+  const lockScreen = document.getElementById('lock-screen');
+  const statusBar = document.getElementById('status-bar');
+  const homeIndicator = document.getElementById('home-indicator');
+
+  let startY = 0;
+  let isSwiping = false;
+
+  lockScreen.addEventListener('touchstart', (e) => {
+    startY = e.touches[0].clientY;
+    isSwiping = true;
+  });
+
+  lockScreen.addEventListener('touchend', (e) => {
+    if (!isSwiping) return;
+    let endY = e.changedTouches[0].clientY;
+    if (startY - endY > 50) unlockPhone();
+    isSwiping = false;
+  });
+
+  lockScreen.addEventListener('mousedown', (e) => { startY = e.clientY; isSwiping = true; });
+  lockScreen.addEventListener('mouseup', (e) => {
+    if (!isSwiping) return;
+    if (startY - e.clientY > 50 || startY === e.clientY) unlockPhone();
+    isSwiping = false;
+  });
+
+  function unlockPhone() {
+    lockScreen.classList.add('unlocked');
+    statusBar.classList.add('light');
+    homeIndicator.classList.add('dark');
+  }
+
+  function openApp(id) {
+    document.getElementById(id).classList.add('active');
+    statusBar.classList.remove('light');
+    homeIndicator.classList.remove('dark');
+  }
+
+  function goHome() {
+    let activePages = document.querySelectorAll('.app-page.active');
+    if (activePages.length > 0) {
+      activePages.forEach(p => p.classList.remove('active'));
+      statusBar.classList.add('light');
+      homeIndicator.classList.add('dark');
+    } else {
+      lockScreen.classList.remove('unlocked');
+      statusBar.classList.remove('light');
+      homeIndicator.classList.remove('dark');
+    }
+  }
+</script>
+
+</body>
+</html>
