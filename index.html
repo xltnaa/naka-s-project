@@ -3,196 +3,225 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Bintang's Phone</title>
-  <!-- Load FontAwesome untuk Ikon iOS Asli -->
+  <title>AU iOS Phone</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, sans-serif; user-select: none; }
-    body { background-color: #0d1117; display: flex; justify-content: center; align-items: center; min-height: 100vh; color: white; overflow: hidden; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif; user-select: none; }
+    body { background-color: #f2f2f7; display: flex; justify-content: center; align-items: center; min-height: 100vh; color: #000; overflow: hidden; }
 
-    /* PHONE FRAME & SCREEN */
-    .phone { width: 360px; height: 720px; background: #1c1c1e; border-radius: 48px; padding: 12px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.8); border: 4px solid #2c2c2e; position: relative; }
-    .screen { width: 100%; height: 100%; border-radius: 38px; overflow: hidden; position: relative; background-size: cover; background-position: center; transition: background-image 0.3s ease; }
+    /* FRAME & SCREEN */
+    .phone { width: 375px; height: 750px; background: #fff; border-radius: 44px; padding: 10px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); border: 4px solid #d1d1d6; position: relative; }
+    .screen { width: 100%; height: 100%; border-radius: 36px; overflow: hidden; position: relative; background: #f2f2f7; }
+
+    /* STATUS BAR */
+    .status-bar { padding: 12px 20px 0 20px; height: 44px; display: flex; justify-content: space-between; font-size: 14px; font-weight: 700; z-index: 50; position: absolute; width: 100%; top: 0; left: 0; color: #000; }
+    .status-bar.dark { color: #fff; }
+
+    /* HOMESCREEN */
+    #home-screen { width: 100%; height: 100%; padding: 50px 16px 16px 16px; display: flex; flex-direction: column; justify-content: space-between; background-image: url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=1000'); background-size: cover; background-position: center; }
     
-    /* STATUS BAR & DYNAMIC ISLAND */
-    .status-bar { padding: 12px 22px 0 22px; height: 44px; display: flex; justify-content: space-between; font-size: 12px; font-weight: 600; z-index: 50; position: absolute; width: 100%; top: 0; left: 0; }
-    .dynamic-island { position: absolute; top: 8px; left: 50%; transform: translateX(-50%); width: 110px; height: 28px; background: black; border-radius: 20px; z-index: 60; }
-
-    /* HOME SCREEN */
-    #home-screen { width: 100%; height: 100%; padding: 60px 20px 20px 20px; display: flex; flex-direction: column; justify-content: space-between; }
-    .widget-clock { text-align: center; margin-top: 10px; }
-    .time-large { font-size: 48px; font-weight: 200; letter-spacing: -1px; }
-    .date-large { font-size: 14px; opacity: 0.8; font-weight: 500; }
-
-    .app-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 20px; }
-    .app-icon { display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; }
+    /* WIDGETS GRID */
+    .widgets-container { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px; }
+    .widget-box { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(15px); border-radius: 22px; padding: 14px; height: 140px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
     
-    /* IKON iOS DESAIN PERSIS APPLE */
-    .icon-box { width: 58px; height: 58px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 26px; color: white; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
-    .icon-messages { background: linear-gradient(180deg, #63e6be, #34c759); }
-    .icon-music { background: linear-gradient(180deg, #ff5263, #fa2d48); }
-    .icon-notes { background: linear-gradient(180deg, #ffe066, #ffcc00); }
-    .icon-photos { background: #ffffff; color: #1c1c1e; }
+    .widget-weather { background: #4a90e2; color: white; display: flex; flex-direction: column; justify-content: space-between; }
+    .widget-weather .temp { font-size: 38px; font-weight: 300; }
     
-    .app-name { font-size: 11px; font-weight: 500; letter-spacing: -0.2px; }
+    .widget-calendar { background: white; color: #000; display: flex; flex-direction: column; justify-content: space-between; }
+    .cal-header { color: #ff3b30; font-weight: 700; font-size: 13px; }
+    .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; font-size: 9px; font-weight: 600; gap: 2px; }
+    .cal-today { background: #ff3b30; color: white; border-radius: 50%; width: 14px; height: 14px; display: inline-flex; align-items: center; justify-content: center; }
 
-    /* DOCK BAR iOS */
-    .dock { background: rgba(255,255,255,0.25); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border-radius: 28px; padding: 12px 14px; display: flex; justify-content: space-around; margin-bottom: 8px; }
-    .dock-icon { width: 52px; height: 52px; border-radius: 13px; display: flex; align-items: center; justify-content: center; font-size: 24px; color: white; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+    /* APPS GRID */
+    .app-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+    .app-icon { display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; }
+    .icon-box { width: 56px; height: 56px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 26px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); background-size: cover; background-position: center; }
+    .app-name { font-size: 11px; font-weight: 500; color: #000; }
 
-    /* PAGES / APPS CONTAINER */
-    .app-page { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 40; display: none; flex-direction: column; padding-top: 44px; padding-bottom: 20px; animation: slideUp 0.25s cubic-bezier(0,1,0.5,1); }
+    /* DOCK */
+    .dock { background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(20px); border-radius: 28px; padding: 10px 12px; display: flex; justify-content: space-around; margin-bottom: 6px; }
+
+    /* FULLPAGE APPS */
+    .app-page { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #000; color: #fff; z-index: 40; display: none; flex-direction: column; padding-top: 44px; animation: slideUp 0.2s cubic-bezier(0,1,0.5,1); }
     .app-page.active { display: flex; }
-
     @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
 
-    /* APP HEADER */
-    .app-header { height: 44px; padding: 0 16px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #1c1c1e; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); }
-    .back-btn { color: #0a84ff; font-size: 15px; background: none; border: none; cursor: pointer; display: flex; align-items: center; gap: 4px; }
-
     /* MESSAGES APP */
-    .chat-body { flex: 1; padding: 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; background: #000; }
-    .bubble { max-width: 75%; padding: 10px 14px; border-radius: 18px; font-size: 13px; line-height: 1.4; word-wrap: break-word; }
-    .bubble.in { background: #26262a; color: white; align-self: flex-start; border-bottom-left-radius: 4px; }
-    .bubble.out { background: #0a84ff; color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
-
-    /* MUSIC APP */
-    .music-body { flex: 1; padding: 24px; display: flex; flex-direction: column; align-items: center; justify-content: space-around; background: linear-gradient(180deg, #3a1c40, #000); text-align: center; }
-    .album-art { width: 200px; height: 200px; border-radius: 50%; border: 6px solid #2c2c2e; box-shadow: 0 10px 30px rgba(0,0,0,0.8); object-fit: cover; animation: spin 10s linear infinite; animation-play-state: paused; }
-    .album-art.playing { animation-play-state: running; }
-    @keyframes spin { 100% { transform: rotate(360deg); } }
-    .play-btn { width: 60px; height: 60px; border-radius: 50%; background: #fa2d48; border: none; color: white; font-size: 22px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+    .messages-header { padding: 10px 16px; font-size: 28px; font-weight: 700; display: flex; justify-content: space-between; align-items: center; }
+    .search-bar { background: #1c1c1e; margin: 0 16px 12px 16px; padding: 8px 12px; border-radius: 10px; color: #8e8e93; font-size: 14px; }
+    .chat-list { flex: 1; overflow-y: auto; }
+    .chat-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-bottom: 0.5px solid #2c2c2e; cursor: pointer; }
+    .chat-avatar { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; background: #3a3a3c; }
+    .chat-info { flex: 1; }
+    .chat-name { font-weight: 600; font-size: 15px; margin-bottom: 2px; }
+    .chat-preview { color: #8e8e93; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px; }
 
     /* NOTES APP */
-    .notes-body { flex: 1; padding: 20px; color: #e5e5ea; font-size: 14px; line-height: 1.6; overflow-y: auto; background: #1c1c1e; }
+    .notes-header { padding: 10px 16px; font-size: 28px; font-weight: 700; color: #fff; }
+    .notes-list { flex: 1; padding: 16px; overflow-y: auto; }
+    .note-card { background: #1c1c1e; border-radius: 12px; padding: 14px; margin-bottom: 12px; }
+    .note-title { font-weight: 700; font-size: 16px; margin-bottom: 4px; color: #fff; }
+    .note-desc { color: #8e8e93; font-size: 13px; line-height: 1.4; }
 
     /* PHOTOS APP */
-    .photos-grid { flex: 1; display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; padding: 4px; overflow-y: auto; }
-    .photo-item { aspect-ratio: 1; object-fit: cover; width: 100%; border-radius: 4px; cursor: pointer; }
+    .photos-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; overflow-y: auto; flex: 1; }
+    .photo-thumb { aspect-ratio: 1; object-fit: cover; width: 100%; }
 
     /* HOME INDICATOR */
-    .home-indicator { position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); width: 120px; height: 5px; background: white; border-radius: 3px; z-index: 100; opacity: 0.6; cursor: pointer; }
+    .home-indicator { position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); width: 120px; height: 5px; background: #000; border-radius: 3px; z-index: 100; cursor: pointer; }
+    .home-indicator.white { background: #fff; }
   </style>
 </head>
 <body>
 
 <div class="phone">
-  <div class="screen" id="screen" style="background-image: url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=1000');">
+  <div class="screen">
     
-    <div class="dynamic-island"></div>
-    
-    <div class="status-bar">
-      <span>17:15</span>
-      <span>100% <i class="fa-solid fa-battery-full"></i></span>
+    <!-- STATUS BAR -->
+    <div class="status-bar" id="status-bar">
+      <span>21:36</span>
+      <span>5G 67%</span>
     </div>
 
-    <!-- HOME SCREEN -->
+    <!-- 1. HOMESCREEN -->
     <div id="home-screen">
-      <div class="widget-clock">
-        <div class="time-large">17:15</div>
-        <div class="date-large">Kamis, 23 Oktober</div>
-      </div>
-
       <div>
+        <!-- WIDGETS -->
+        <div class="widgets-container">
+          <div class="widget-box widget-weather">
+            <div>
+              <div style="font-weight: 600; font-size: 13px;">Jakarta 📍</div>
+              <div class="temp">23°</div>
+            </div>
+            <div style="font-size: 11px;">☀️ Cerah</div>
+          </div>
+
+          <div class="widget-box widget-calendar">
+            <div class="cal-header">Okt</div>
+            <div class="cal-grid">
+              <span>M</span><span>S</span><span>S</span><span>R</span><span>K</span><span>J</span><span>S</span>
+              <span></span><span></span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span>
+              <span>6</span><span>7</span><span>8</span><span>9</span><span>10</span><span>11</span><span>12</span>
+              <span>13</span><span>14</span><span>15</span><span>16</span><span>17</span><span>18</span><span>19</span>
+              <span>20</span><span>21</span><span>22</span><span class="cal-today">23</span><span>24</span><span>25</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- APP GRID -->
         <div class="app-grid">
-          <!-- IKON PESAN (iOS Messages) -->
-          <div class="app-icon" onclick="openApp('chat-app')">
-            <div class="icon-box icon-messages"><i class="fa-solid fa-comment"></i></div>
-            <span class="app-name">Pesan</span>
-          </div>
-
-          <!-- IKON MUSIK (Apple Music) -->
-          <div class="app-icon" onclick="openApp('music-app')">
-            <div class="icon-box icon-music"><i class="fa-solid fa-music"></i></div>
-            <span class="app-name">Musik</span>
-          </div>
-
-          <!-- IKON NOTES (Apple Notes) -->
           <div class="app-icon" onclick="openApp('notes-app')">
-            <div class="icon-box icon-notes"><i class="fa-solid fa-note-sticky"></i></div>
-            <span class="app-name">Catatan</span>
+            <div class="icon-box" style="background: #ffe066; color: #000;"><i class="fa-solid fa-note-sticky"></i></div>
+            <span class="app-name">Notes</span>
           </div>
 
-          <!-- IKON GALERI (iOS Photos) -->
           <div class="app-icon" onclick="openApp('photos-app')">
-            <div class="icon-box icon-photos"><i class="fa-solid fa-images" style="color: #ff2d55;"></i></div>
-            <span class="app-name">Galeri</span>
+            <div class="icon-box" style="background: #fff; color: #ff2d55;"><i class="fa-solid fa-images"></i></div>
+            <span class="app-name">Photos</span>
+          </div>
+
+          <div class="app-icon">
+            <div class="icon-box" style="background: #fff; color: #000; font-weight: 700; font-size: 18px;">23</div>
+            <span class="app-name">Calendar</span>
+          </div>
+
+          <div class="app-icon">
+            <div class="icon-box" style="background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045); color: #fff;"><i class="fa-brands fa-instagram"></i></div>
+            <span class="app-name">Instagram</span>
+          </div>
+
+          <div class="app-icon">
+            <div class="icon-box" style="background: #fff; color: #34c759;"><i class="fa-solid fa-map-location-dot"></i></div>
+            <span class="app-name">Maps</span>
+          </div>
+
+          <div class="app-icon">
+            <div class="icon-box" style="background: #0a84ff; color: #fff;"><i class="fa-solid fa-folder"></i></div>
+            <span class="app-name">Files</span>
+          </div>
+
+          <div class="app-icon">
+            <div class="icon-box" style="background: #fff; color: #ea4335;"><i class="fa-solid fa-envelope"></i></div>
+            <span class="app-name">Gmail</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- DOCK BAR -->
+      <div class="dock">
+        <div class="icon-box" style="background: #34c759; color: #fff;" onclick="openApp('messages-app')"><i class="fa-solid fa-phone"></i></div>
+        <div class="icon-box" style="background: #34c759; color: #fff;" onclick="openApp('messages-app')"><i class="fa-solid fa-comment"></i></div>
+        <div class="icon-box" style="background: #8e8e93; color: #fff;"><i class="fa-solid fa-gear"></i></div>
+        <div class="icon-box" style="background: #0a84ff; color: #fff;"><i class="fa-solid fa-compass"></i></div>
+      </div>
+    </div>
+
+    <!-- 2. MESSAGES APP -->
+    <div id="messages-app" class="app-page">
+      <div class="messages-header">
+        <span>Messages</span>
+        <i class="fa-regular fa-pen-to-square" style="color: #0a84ff; font-size: 18px;"></i>
+      </div>
+      <div class="search-bar">🔍 Search</div>
+      
+      <div class="chat-list">
+        <!-- LIST CHAT 1 -->
+        <div class="chat-item">
+          <img class="chat-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200">
+          <div class="chat-info">
+            <div class="chat-name">ryul</div>
+            <div class="chat-preview">oksy</div>
           </div>
         </div>
 
-        <!-- DOCK BAR iOS -->
-        <div class="dock">
-          <div class="dock-icon icon-messages" onclick="openApp('chat-app')"><i class="fa-solid fa-comment"></i></div>
-          <div class="dock-icon icon-music" onclick="openApp('music-app')"><i class="fa-solid fa-music"></i></div>
-          <div class="dock-icon icon-notes" onclick="openApp('notes-app')"><i class="fa-solid fa-note-sticky"></i></div>
-          <div class="dock-icon icon-photos" onclick="openApp('photos-app')"><i class="fa-solid fa-images" style="color: #ff2d55;"></i></div>
+        <!-- LIST CHAT 2 -->
+        <div class="chat-item">
+          <img class="chat-avatar" src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=200">
+          <div class="chat-info">
+            <div class="chat-name">woojin</div>
+            <div class="chat-preview">masih di kamar mandi gausah tanya knp gw bawa hp</div>
+          </div>
+        </div>
+
+        <!-- LIST CHAT 3 -->
+        <div class="chat-item">
+          <img class="chat-avatar" src="https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=200">
+          <div class="chat-info">
+            <div class="chat-name">louis</div>
+            <div class="chat-preview">louis...</div>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- APP 1: CHAT -->
-    <div id="chat-app" class="app-page">
-      <div class="app-header">
-        <button class="back-btn" onclick="closeApp()"><i class="fa-solid fa-chevron-left"></i> Pesan</button>
-        <span style="font-weight: 600; font-size: 14px;">Senja 🌇</span>
-        <span style="width: 40px;"></span>
-      </div>
-      <div class="chat-body">
-        <div class="bubble in">Belum pulang, Tang?</div>
-        <div class="bubble out">Belum, Nja. Masih di kelas beberes buku. Lu di mana?</div>
-        <div class="bubble in">Gua di pembatas beton dekat lapangan basket. Sini duduk bareng dulu, langitnya lagi bagus banget.</div>
-        <div class="bubble out">Otw ke sana! 🏃‍♂️</div>
-      </div>
-    </div>
-
-    <!-- APP 2: MUSIC -->
-    <div id="music-app" class="app-page">
-      <div class="app-header">
-        <button class="back-btn" onclick="closeApp()"><i class="fa-solid fa-chevron-left"></i> Musik</button>
-        <span style="font-weight: 600; font-size: 14px;">Apple Music</span>
-        <span style="width: 40px;"></span>
-      </div>
-      <div class="music-body">
-        <img id="vinyl" class="album-art" src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=600" alt="Cover">
-        <div>
-          <h3 style="font-size: 18px; margin-bottom: 4px;">Sore di Lapangan Basket</h3>
-          <p style="color: #a1a1aa; font-size: 13px;">Bintang & Senja (Lo-Fi Chill)</p>
-        </div>
-        <button class="play-btn" onclick="toggleAudio()"><i class="fa-solid fa-play" id="play-icon"></i></button>
-        <audio id="bg-music" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
-      </div>
-    </div>
-
-    <!-- APP 3: NOTES -->
+    <!-- 3. NOTES APP -->
     <div id="notes-app" class="app-page">
-      <div class="app-header">
-        <button class="back-btn" onclick="closeApp()"><i class="fa-solid fa-chevron-left"></i> Catatan</button>
-        <span style="font-weight: 600; font-size: 14px;">Catatan</span>
-        <span style="width: 40px;"></span>
-      </div>
-      <div class="notes-body">
-        <h2 style="font-size: 18px; color: #ffcc00; margin-bottom: 8px;">Senja di Lapangan</h2>
-        <p style="font-size: 11px; color: #8e8e93; margin-bottom: 12px;">23 Oktober 2026, 17:30</p>
-        <p>Kadang capek banget sama jadwal les dan ujian sekolah. Tapi pas nemenin Senja duduk di lapangan basket sambil ngeliat langit berubah oranye, semua rasa capek kayak mendadak hilang.</p>
+      <div class="notes-header">Notes</div>
+      <div class="notes-list">
+        <div class="note-card">
+          <div class="note-title">tugas bisnis</div>
+          <div class="note-desc">00.36 - menurut saya, saya setuju jika e commerce lebih memudahkan orang dalam berbelanja pada zaman sekarang ini...</div>
+        </div>
+
+        <div class="note-card">
+          <div class="note-title">21 Kemarin</div>
+          <div class="note-desc">what if...</div>
+        </div>
       </div>
     </div>
 
-    <!-- APP 4: PHOTOS -->
+    <!-- 4. PHOTOS APP -->
     <div id="photos-app" class="app-page">
-      <div class="app-header">
-        <button class="back-btn" onclick="closeApp()"><i class="fa-solid fa-chevron-left"></i> Galeri</button>
-        <span style="font-weight: 600; font-size: 14px;">Foto Kenangan</span>
-        <span style="width: 40px;"></span>
-      </div>
       <div class="photos-grid">
-        <img class="photo-item" src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=400">
-        <img class="photo-item" src="https://images.unsplash.com/photo-1546519638-68e109498ffc?q=80&w=400">
-        <img class="photo-item" src="https://images.unsplash.com/photo-1497633762265-9d179a990aa6?q=80&w=400">
+        <img class="photo-thumb" src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=400">
+        <img class="photo-thumb" src="https://images.unsplash.com/photo-1546519638-68e109498ffc?q=80&w=400">
+        <img class="photo-thumb" src="https://images.unsplash.com/photo-1497633762265-9d179a990aa6?q=80&w=400">
+        <img class="photo-thumb" src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=400">
       </div>
     </div>
 
-    <!-- HOME BAR NAVIGATION -->
-    <div class="home-indicator" onclick="closeApp()"></div>
+    <!-- HOME INDICATOR -->
+    <div class="home-indicator" id="home-indicator" onclick="closeApp()"></div>
 
   </div>
 </div>
@@ -200,26 +229,14 @@
 <script>
   function openApp(id) {
     document.getElementById(id).classList.add('active');
+    document.getElementById('status-bar').classList.add('dark');
+    document.getElementById('home-indicator').classList.add('white');
   }
 
   function closeApp() {
     document.querySelectorAll('.app-page').forEach(page => page.classList.remove('active'));
-  }
-
-  function toggleAudio() {
-    const audio = document.getElementById('bg-music');
-    const vinyl = document.getElementById('vinyl');
-    const playIcon = document.getElementById('play-icon');
-
-    if (audio.paused) {
-      audio.play();
-      vinyl.classList.add('playing');
-      playIcon.className = 'fa-solid fa-pause';
-    } else {
-      audio.pause();
-      vinyl.classList.remove('playing');
-      playIcon.className = 'fa-solid fa-play';
-    }
+    document.getElementById('status-bar').classList.remove('dark');
+    document.getElementById('home-indicator').classList.remove('white');
   }
 </script>
 
